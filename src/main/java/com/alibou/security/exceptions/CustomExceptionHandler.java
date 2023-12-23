@@ -28,6 +28,20 @@ public class CustomExceptionHandler {
             ExceptionResponse exceptionMessage = new ExceptionResponse(ex.getMessage(), requestUri);
             return new ResponseEntity<>(GenericResponse.error(new ResponseMessage(ErrorCodes.EMAIL_OR_PASSWORD_INCORRECT.getCode(),ErrorCodes.EMAIL_OR_PASSWORD_INCORRECT.getDetails()), ErrorCodes.EMAIL_OR_PASSWORD_INCORRECT.getStatusCode(),ErrorCodes.EMAIL_OR_PASSWORD_INCORRECT.getStatusName()), new HttpHeaders(), ErrorCodes.EMAIL_OR_PASSWORD_INCORRECT.getHttpStatus());
         }
+        if (ex instanceof UnknownRefreshToken) {
+//            detail = ProblemDetail.forStatusAndDetail(HttpStatusCode.valueOf(401), ex.getMessage());
+            String requestUri = ((ServletWebRequest) request).getRequest().getRequestURI().toString();
+            ExceptionResponse exceptionMessage = new ExceptionResponse(ex.getMessage(), requestUri);
+            return new ResponseEntity<>(GenericResponse.error(new ResponseMessage(ErrorCodes.REFRESH_TOKEN_UNKNOWN.getCode(),ErrorCodes.REFRESH_TOKEN_UNKNOWN.getDetails()), ErrorCodes.REFRESH_TOKEN_UNKNOWN.getStatusCode(),ErrorCodes.REFRESH_TOKEN_UNKNOWN.getStatusName()), new HttpHeaders(), ErrorCodes.REFRESH_TOKEN_UNKNOWN.getHttpStatus());
+        }
+
+        if (ex instanceof NoCookiePresent) {
+//            detail = ProblemDetail.forStatusAndDetail(HttpStatusCode.valueOf(401), ex.getMessage());
+            String requestUri = ((ServletWebRequest) request).getRequest().getRequestURI().toString();
+            ExceptionResponse exceptionMessage = new ExceptionResponse(ex.getMessage(), requestUri);
+            return new ResponseEntity<>(GenericResponse.error(new ResponseMessage("NO_COOKIE",ex.getMessage()), ErrorCodes.REFRESH_TOKEN_UNKNOWN.getStatusCode(),ErrorCodes.REFRESH_TOKEN_UNKNOWN.getStatusName()), new HttpHeaders(), ErrorCodes.REFRESH_TOKEN_UNKNOWN.getHttpStatus());
+        }
+
         if (ex instanceof ExpiredJwtException) {
 //            detail = ProblemDetail.forStatusAndDetail(HttpStatusCode.valueOf(401), ex.getMessage());
 

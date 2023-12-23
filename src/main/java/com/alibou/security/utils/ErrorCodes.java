@@ -21,12 +21,14 @@ public enum ErrorCodes {
 
     PASSWORD_INVALID("PASSWORD", "Invalid password", 422, HttpStatusCode.UNPROCESSABLE_ENTITY.getDescription(), HttpStatus.UNPROCESSABLE_ENTITY),
 
-    PASSWORD_INCORRECT("PASSWORD_INCORRECT", "Incorrect password", 401, HttpStatusCode.UNAUTHORIZED.getDescription(),HttpStatus.UNAUTHORIZED),
+    PASSWORD_INCORRECT("PASSWORD_INCORRECT", "Incorrect password", 401, HttpStatusCode.UNAUTHORIZED.getDescription(), HttpStatus.UNAUTHORIZED),
 
     // Endpoint - /** (Protected) EXPIRED_JWT_EXCEPTION | SIGNATURE_EXCEPTION | ACCESS_DENIED_EXCEPTION | MALFORMED_JWT_EXCEPTION | UNSUPPORTED_JWTEXCEPTION | ILLEGAL_ARGUMENT_EXCEPTION
-    ACCESS_TOKEN_EXPIRED("ACCESS_TOKEN_EXPIRED", "Access denied", 401, HttpStatusCode.UNAUTHORIZED.getDescription(),HttpStatus.UNAUTHORIZED),
+    ACCESS_TOKEN_EXPIRED("ACCESS_TOKEN_EXPIRED", "Access denied", 401, HttpStatusCode.UNAUTHORIZED.getDescription(), HttpStatus.UNAUTHORIZED),
 
-    ACCESS_TOKEN_INVALID("ACCESS_TOKEN_INVALID", "Access denied", 401, HttpStatusCode.UNAUTHORIZED.getDescription(), HttpStatus.UNAUTHORIZED);
+    ACCESS_TOKEN_INVALID("ACCESS_TOKEN_INVALID", "Access denied", 401, HttpStatusCode.UNAUTHORIZED.getDescription(), HttpStatus.UNAUTHORIZED),
+
+    REFRESH_TOKEN_UNKNOWN("REFRESH_TOKEN_UNKNOWN", "Refresh token unknown or invalid", 401, HttpStatusCode.UNAUTHORIZED.getDescription(), HttpStatus.UNAUTHORIZED);
 
 
     private String code;

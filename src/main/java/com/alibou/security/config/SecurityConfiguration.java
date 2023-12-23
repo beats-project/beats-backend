@@ -63,10 +63,16 @@ public class SecurityConfiguration {
 //    @Qualifier("handlerExceptionResolver")
 //    private HandlerExceptionResolver exceptionResolver;
 
+    // Uncomment this and remove below
     @Bean
     public JwtAuthenticationFilter getJwtAuthFilter(){
         return new JwtAuthenticationFilter(exceptionResolver);
     }
+
+//    @Bean
+//    public CookieJwtAuthenticationFilter getJwtAuthFilter(){
+//        return new CookieJwtAuthenticationFilter(exceptionResolver);
+//    }
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
