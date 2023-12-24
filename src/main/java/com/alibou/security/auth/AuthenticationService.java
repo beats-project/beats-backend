@@ -59,12 +59,6 @@ public class AuthenticationService {
     }
 
     public LoginDto authenticate(AuthenticationRequest request, HttpServletResponse response) throws BadCredentialsException, DisabledException, UsernameNotFoundException, IOException {
-//        authenticationManager.authenticate(
-//                new UsernamePasswordAuthenticationToken(
-//                        request.getEmail(),
-//                        request.getPassword()
-//                )
-//        );
         try {
             authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(
@@ -86,7 +80,9 @@ public class AuthenticationService {
         revokeAllUserTokens(user);
         saveUserToken(user, accessToken);
         setAuthCookies(accessToken,refreshToken,response);
+
         return LoginDto.builder()
+                .firstName(user.getFirstName())
                 .accessToken(accessToken)
                 .refreshToken(refreshToken)
                 .build();

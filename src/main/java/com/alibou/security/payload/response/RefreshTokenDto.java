@@ -7,8 +7,7 @@ import lombok.Data;
 @Data
 @Builder
 @AllArgsConstructor
-public class LoginDto {
-    private String firstName;
+public class RefreshTokenDto {
     private String accessToken;
     private String refreshToken;
 }

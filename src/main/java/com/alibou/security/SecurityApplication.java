@@ -21,6 +21,7 @@ public class SecurityApplication {
 	public static void main(String[] args) {
 		SpringApplication.run(SecurityApplication.class, args);
 	}
+
 	@Bean
 	public WebMvcConfigurer corsConfigurer() {
 		return new WebMvcConfigurer() {
@@ -30,10 +31,10 @@ public class SecurityApplication {
 			}
 		};
 	}
+
 	@Bean
 	public CommandLineRunner commandLineRunner(
-			AuthenticationService service
-	) {
+			AuthenticationService service) {
 		return args -> {
 			var admin = RegisterRequest.builder()
 					.firstName("Admin")
