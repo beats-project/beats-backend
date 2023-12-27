@@ -11,6 +11,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.alibou.security.models.Project;
+import com.alibou.security.payload.GenericResponse;
+import com.alibou.security.payload.response.LoginDto;
+import com.alibou.security.payload.response.ProjectDto;
+import com.alibou.security.payload.response.ResponseMessage;
 import com.alibou.security.services.ProjectService;
 import com.alibou.security.user.User;
 import com.alibou.security.utils.Authentication;
@@ -34,9 +38,10 @@ public class ProjectController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Project>> findAllBooks() {
+    public ResponseEntity<GenericResponse<List<ProjectDto>>> findAllBooks() {
         User user = Authentication.getUser();
         System.out.println(user.getId());
-        return ResponseEntity.ok(service.findAll());
+        return ResponseEntity.ok(GenericResponse.success(service.findAll(),
+                new ResponseMessage("PROJECT_RECIEVED_SUCCESS", "Projects recieved successfully"), 200, "Ok"));
     }
 }

@@ -2,6 +2,7 @@ package com.alibou.security.models;
 
 import com.alibou.security.user.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -44,7 +45,8 @@ public class Project {
         @JsonIgnore
         private User owner;
 
-        @OneToMany(fetch = FetchType.LAZY, mappedBy = "project", cascade = CascadeType.ALL)
+        @OneToMany(fetch = FetchType.EAGER, mappedBy = "project", cascade = CascadeType.ALL)
+        @JsonManagedReference
         private List<Task> tasks;
 
         @Builder.Default
