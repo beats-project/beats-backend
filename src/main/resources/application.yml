@@ -27,4 +27,4 @@ server:
         same-site: lax
 logging:
   level:
-    web: debug
+    web: info

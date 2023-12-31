@@ -75,14 +75,14 @@ public class SecurityConfiguration {
     // return new CookieJwtAuthenticationFilter(exceptionResolver);
     // }
 
-    @Bean
-    public CommonsRequestLoggingFilter requestLoggingFilter() {
-        CommonsRequestLoggingFilter loggingFilter = new CommonsRequestLoggingFilter();
-        loggingFilter.setIncludeQueryString(true);
-        loggingFilter.setIncludePayload(true);
-        loggingFilter.setIncludeHeaders(true);
-        return loggingFilter;
-    }
+    // @Bean
+    // public CommonsRequestLoggingFilter requestLoggingFilter() {
+    //     CommonsRequestLoggingFilter loggingFilter = new CommonsRequestLoggingFilter();
+    //     loggingFilter.setIncludeQueryString(true);
+    //     loggingFilter.setIncludePayload(true);
+    //     loggingFilter.setIncludeHeaders(true);
+    //     return loggingFilter;
+    // }
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {

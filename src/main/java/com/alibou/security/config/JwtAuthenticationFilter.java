@@ -30,11 +30,11 @@ import org.springframework.web.servlet.HandlerExceptionResolver;
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     @Autowired
-    private  JwtService jwtService;
+    private JwtService jwtService;
     @Autowired
-    private  UserDetailsService userDetailsService;
+    private UserDetailsService userDetailsService;
     @Autowired
-    private  TokenRepository tokenRepository;
+    private TokenRepository tokenRepository;
     private HandlerExceptionResolver exceptionResolver;
 
     public JwtAuthenticationFilter(HandlerExceptionResolver exceptionResolver) {
@@ -45,12 +45,12 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     protected void doFilterInternal(
             @NonNull HttpServletRequest request,
             @NonNull HttpServletResponse response,
-            @NonNull FilterChain filterChain
-    ) throws ServletException, IOException {
+            @NonNull FilterChain filterChain) throws ServletException, IOException {
         if (request.getServletPath().contains("/api/v1/auth")) {
             filterChain.doFilter(request, response);
             return;
         }
+        System.out.println(request.getHeader("User-Agent"));
         final String authHeader = request.getHeader("Authorization");
         final String jwt;
         final String userEmail;
@@ -63,6 +63,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
             userEmail = jwtService.extractUsername(jwt);
             if (userEmail != null && SecurityContextHolder.getContext().getAuthentication() == null) {
                 UserDetails userDetails = this.userDetailsService.loadUserByUsername(userEmail);
+                System.out.println(userDetails.getUsername());
                 var isTokenValid = tokenRepository.findByToken(jwt)
                         .map(t -> !t.isExpired() && !t.isRevoked())
                         .orElse(false);
@@ -70,17 +71,16 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                     UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(
                             userDetails,
                             null,
-                            userDetails.getAuthorities()
-                    );
+                            userDetails.getAuthorities());
                     authToken.setDetails(
-                            new WebAuthenticationDetailsSource().buildDetails(request)
-                    );
+                            new WebAuthenticationDetailsSource().buildDetails(request));
                     SecurityContextHolder.getContext().setAuthentication(authToken);
                 }
             }
             filterChain.doFilter(request, response);
-        } catch (ExpiredJwtException | SignatureException | AccessDeniedException | MalformedJwtException | UnsupportedJwtException | IllegalArgumentException e) {
-            exceptionResolver.resolveException(request,response,null,e);
+        } catch (ExpiredJwtException | SignatureException | AccessDeniedException | MalformedJwtException
+                | UnsupportedJwtException | IllegalArgumentException e) {
+            exceptionResolver.resolveException(request, response, null, e);
         }
 
     }

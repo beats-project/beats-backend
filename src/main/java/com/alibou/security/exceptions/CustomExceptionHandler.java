@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.ServletWebRequest;
 import org.springframework.web.context.request.WebRequest;
+import org.springframework.web.servlet.NoHandlerFoundException;
+
 import com.alibou.security.utils.HttpStatusCode;
 
 @RestControllerAdvice
@@ -74,9 +76,32 @@ public class CustomExceptionHandler {
                             ErrorCodes.ACCESS_TOKEN_EXPIRED.getStatusName()),
                     new HttpHeaders(), ErrorCodes.ACCESS_TOKEN_EXPIRED.getHttpStatus());
         }
+        if (ex instanceof NoHandlerFoundException) {
+            // detail = ProblemDetail.forStatusAndDetail(HttpStatusCode.valueOf(401),
+            // ex.getMessage());
+            
+            String requestUri = ((ServletWebRequest) request).getRequest().getRequestURI().toString();
+            ExceptionResponse exceptionMessage = new ExceptionResponse(ex.getMessage(), requestUri);
+            return new ResponseEntity<>(
+                    GenericResponse.error(
+                            new ResponseMessage(ErrorCodes.NO_HANDLER_FOUND.getCode(),
+                                    ErrorCodes.NO_HANDLER_FOUND.getDetails()),
+                            ErrorCodes.NO_HANDLER_FOUND.getStatusCode(),
+                            ErrorCodes.NO_HANDLER_FOUND.getStatusName()),
+                    new HttpHeaders(), ErrorCodes.NO_HANDLER_FOUND.getHttpStatus());
+        }
         if (ex instanceof AccessDeniedException) {
             // detail = ProblemDetail.forStatusAndDetail(HttpStatusCode.valueOf(403),
             // ex.getMessage());
+            String requestUri = ((ServletWebRequest) request).getRequest().getRequestURI().toString();
+            ExceptionResponse exceptionMessage = new ExceptionResponse(ex.getMessage(), requestUri);
+            return new ResponseEntity<>(
+                    GenericResponse.error(
+                            new ResponseMessage(ErrorCodes.NO_HANDLER_FOUND.getCode(),
+                                    ErrorCodes.NO_HANDLER_FOUND.getDetails()),
+                            ErrorCodes.NO_HANDLER_FOUND.getStatusCode(),
+                            ErrorCodes.NO_HANDLER_FOUND.getStatusName()),
+                    new HttpHeaders(), ErrorCodes.NO_HANDLER_FOUND.getHttpStatus());
 
         }
         if (ex instanceof SignatureException) {
